@@ -1,0 +1,28 @@
+name: SHEN-MD Runner
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Run Bot
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        OWNER_NUMBER: ${{ secrets.OWNER_NUMBER }}
+      run: node index.js
